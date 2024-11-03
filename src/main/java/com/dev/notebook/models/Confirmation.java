@@ -17,7 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "tbl_confirmations")
 public class Confirmation extends BaseAuditable{
-    private String key;
+    @Column(name = "confirmation_key", nullable = false)  // Renamed from 'key' to 'confirmation_key'
+    private String confirmationKey;
 
     @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,7 +29,7 @@ public class Confirmation extends BaseAuditable{
     private User user;
 
     public Confirmation(User user) {
-        this.key = UUID.randomUUID().toString();
+        this.confirmationKey = UUID.randomUUID().toString();
         this.user = user;
     }
 }

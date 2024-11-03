@@ -27,7 +27,7 @@ public class Credential extends BaseAuditable{
     private User user;
 
     public Credential(String password, User user) {
-        this.password = password;
         this.user = user;
+        this.password = password;
     }
 }

@@ -32,6 +32,7 @@ public class User extends BaseAuditable implements UserDetails {
 
     private String city;
 
+    private boolean enabled = false;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(
@@ -71,6 +72,6 @@ public class User extends BaseAuditable implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }
