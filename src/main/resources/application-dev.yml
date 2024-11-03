@@ -1,0 +1,12 @@
+MYSQL_USERNAME: user
+MYSQL_PASSWORD: userpassword
+MYSQL_HOST: 127.0.0.1
+MYSQL_PORT: 3309
+MYSQL_DATABASE: the_open_notebook_db
+
+
+MAIL_USERNAME: ecosystemprogramminglanguage@gmail.com
+MAIL_PASSWORD: ainubmlhyfkrbnzy
+
+CONTAINER_PORT: 8089
+ACTIVE_PROFILE: dev

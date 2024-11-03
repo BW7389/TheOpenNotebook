@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: The Open Notebook API Documentation
+  description: This is a sample API documentation
+  version: 1.0.0
+  contact:
+    name: Bang
+    email: bucolicwhisper7389@gmail.com
+    url: https://example.com
+  license:
+    name: Licence name
+    url: https://some-url.com
+servers:
+  - url: http://localhost:8089/api/v1
+    description: Local ENV
+tags:
+  - name: Authenticated
+    description: Authenticated
+paths:
+  /users/register:
+    post:
+      summary: Register New User
+      tags:
+        - Authenticated
+      requestBody:
+        description: Register New User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      summary: User Login
+      tags:
+        - Authenticated
+      requestBody:
+        description: User login details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users/account/verify:
+    get:
+      summary: Verify User Email
+      tags:
+        - Authenticated
+      parameters:
+        - name: confirmationKey
+          in: query
+          required: true
+          description: The confirmation key sent to the user via email
+          schema:
+            type: string
+            example: "Confirmation key ..."
+      responses:
+        '200':
+          description: Email verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        '409':
+          description: Email already verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: abc@example.com
+        password:
+          type: string
+          example: password
+
+    RegisterRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Vo Anh
+        lastName:
+          type: string
+          example: Bang
+        email:
+          type: string
+          example: bucolicwhisper7389@gmail.com
+        password:
+          type: string
+          example: abc@#123
+        city:
+          type: string
+          example: Ho Chi Minh city
+
+    RegisterResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User registered successfully
+        code_status:
+          type: string
+          example: "201"
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR..."
+        message:
+          type: string
+          example: "Login successful"
+
+    VerifyResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Email verified successfully"
+        code_status:
+          type: string
+          example: "200"
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred"
+        code_status:
+          type: string
+          example: "400"
+
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - jwtAuth: []

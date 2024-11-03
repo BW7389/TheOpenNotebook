@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: update
+    show-sql: true
+  logging:
+    level:
+      root: DEBUG
+  mail:
+    verify:
+      host: smtp.gmail.com                # Gmail's SMTP server
+    port: 587                           # Port for TLS/STARTTLS
+    username: ${MAIL_USERNAME}          # Gmail address
+    password: ${MAIL_PASSWORD}          # Gmail app-specific password (not your regular password)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+server:
+  port: ${CONTAINER_PORT:8080}
+  servlet:
+    context-path: /api/v1
